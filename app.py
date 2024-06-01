@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
@@ -7,6 +8,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 # MongoDB Atlas connection string
 MONGO_URL = os.getenv('MONGO_URL')
