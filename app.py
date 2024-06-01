@@ -151,7 +151,7 @@ def get_aisummary():
     completion = client.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are a military assistant. You get siatuational awareness data and should just output at most 3 keypoints describing the current situation for a commander. Straightforward and concise. Don't mention coordinates. Draw conclusions from them."},
+            {"role": "system", "content": "You are a military assistant. You get siatuational awareness data and should just output at most 3 keypoints describing the current situation for a commander. Straightforward and concise. Don't mention coordinates. Draw conclusions from them. No formatting except line breaks.g"},
             {"role": "user", "content": large_string}
         ]
     )
