@@ -90,5 +90,31 @@ def get_data():
 
     return jsonify(modified_documents)
 
+@app.route('/get/landmarks', methods=['GET'])
+def get_data():
+    # Query to get all documents with type different from 'uxv'
+    documents = collection.find({"type": "landmark"})
+
+    modified_documents = []
+    for doc in documents:
+        # Serialize the document to be JSON serializable and strip specific fields
+        modified_doc = serialize_document(doc)
+        modified_documents.append(modified_doc)
+
+    return jsonify(modified_documents)
+
+@app.route('/get/images', methods=['GET'])
+def get_data():
+    # Query to get all documents with type different from 'uxv'
+    documents = collection.find({"type": "image"})
+
+    modified_documents = []
+    for doc in documents:
+        # Serialize the document to be JSON serializable and strip specific fields
+        modified_doc = serialize_document(doc)
+        modified_documents.append(modified_doc)
+
+    return jsonify(modified_documents)
+
 if __name__ == '__main__':
     app.run(debug=True)
