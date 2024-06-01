@@ -91,7 +91,7 @@ def get_data():
     return jsonify(modified_documents)
 
 @app.route('/get/landmarks', methods=['GET'])
-def get_data():
+def get_landmarks():
     # Query to get all documents with type different from 'uxv'
     documents = collection.find({"type": "landmark"})
 
@@ -104,7 +104,7 @@ def get_data():
     return jsonify(modified_documents)
 
 @app.route('/get/images', methods=['GET'])
-def get_data():
+def get_images():
     # Query to get all documents with type different from 'uxv'
     documents = collection.find({"type": "image"})
 
