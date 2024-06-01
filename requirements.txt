@@ -10,4 +10,5 @@ MarkupSafe==2.1.5
 packaging==24.0
 pymongo==4.7.2
 python-dotenv==1.0.1
+pytz==2024.1
 Werkzeug==3.0.3
