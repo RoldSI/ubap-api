@@ -5,11 +5,32 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import os
 import pytz
+from openai import OpenAI
+import json
+from bson import json_util
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
+
+# client = OpenAI()
+# completion = client.chat.completions.create(
+#   model="gpt-3.5-turbo",
+#   messages=[
+#     {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
+#     {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+#   ]
+# )
+# print(completion.choices[0].message.content)
+# completion = client.chat.completions.create(
+#         model="gpt-4o",
+#         messages=[
+#             {"role": "system", "content": "You are a military assistant. You get siatuational awareness data and should just output at most 3 keypoints describing the current situation for a commander. Straightforward and concise."},
+#             {"role": "user", "content": "hoi"}
+#         ]
+#     )
+# print(completion.choices[0].message.content)
 
 # MongoDB Atlas connection string
 MONGO_URL = os.getenv('MONGO_URL')
@@ -115,6 +136,29 @@ def get_images():
         modified_documents.append(modified_doc)
 
     return jsonify(modified_documents)
+
+@app.route('/get/ai_summary', methods=['GET'])
+def get_aisummary():
+
+    documents = collection.find()
+    # Convert documents to a large string
+    large_string = ""
+    for document in documents:
+        # Convert each document to a JSON string and concatenate
+        large_string += json_util.dumps(document) + "\n"
+
+    client = OpenAI()
+    completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a military assistant. You get siatuational awareness data and should just output at most 3 keypoints describing the current situation for a commander. Straightforward and concise."},
+            {"role": "user", "content": large_string}
+        ]
+    )
+    print(completion.choices[0].message.content)
+    return jsonify({
+        'ai_summary': completion.choices[0].message.content
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
