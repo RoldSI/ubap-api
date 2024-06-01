@@ -14,7 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Command to run on container start
-CMD [ "gunicorn", "-b", "0.0.0.0:8000", "app:app" ]
-
-# Expose the port the app runs on
-EXPOSE 8000
+CMD exec gunicorn -b :$PORT "app:app"
