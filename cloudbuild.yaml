@@ -9,7 +9,7 @@ steps:
       - .
       - '-f'
       - Dockerfile
-    secretEnv: ['MONGO_AUTH', 'MONGO_URL']
+    secretEnv: ['MONGO_AUTH', 'MONGO_URL', 'OPENAI_API_KEY']
     id: Build
   - name: gcr.io/cloud-builders/docker
     args:
@@ -31,6 +31,7 @@ steps:
       - '--region=$_DEPLOY_REGION'
       - '--set-secrets=MONGO_AUTH=MONGO_AUTH:latest'
       - '--set-secrets=MONGO_URL=MONGO_URL:latest'
+      - '--set-secrets=OPENAI_API_KEY=OPENAI_API_KEY:latest'
       - '--quiet'
     id: Deploy
     entrypoint: gcloud
@@ -43,6 +44,8 @@ availableSecrets:
     env: 'MONGO_AUTH'
   - versionName: projects/$PROJECT_ID/secrets/MONGO_URL/versions/latest
     env: 'MONGO_URL'
+  - versionName: projects/$PROJECT_ID/secrets/OPENAI_API_KEY/versions/latest
+    env: 'OPENAI_API_KEY'
 options:
   substitutionOption: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
